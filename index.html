@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Earthquakes</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        form {
+            display: flex;
+            /* flex-direction: column; */
+            justify-content: left;
+            align-items: flex-end;
+            margin-top: 10%;
+        }
+
+        .form-item {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        label,
+        input,
+        button {
+            padding: 10px;
+            margin-left: 10px;
+        }
+
+        label {
+            padding-left: 0px;
+        }
+
+        .employee-info {
+            display: flex;
+            flex-direction: column;
+            align-items: left;
+        }
+
+        .error-message {
+            color: red;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <form id="myform" name="myform">
+        <div class="form-item">
+            <label for="howMany">How Many: </label>
+            <input type="number" id="howMany" name="howMany" required min='1' oninput="validity.valid||(value='');">
+            <p></p>
+            <select id="what" name="what">
+                <option value="none">--------</option>
+                <option value="0">Recent</option>
+                <option value="1">Worst</option>
+            </select>
+            <p></p>
+            <label for="minMag">Minimum Magnitude: </label>
+            <input type="number" id="minMag" name="minMag" required  min="0.1" max="10" step="0.1" oninput="validity.valid||(value='');">
+            <p></p>
+            <label for="howMany">Maximum Magnitude: </label>
+            <input type="number" id="maxMag" name="maxMag" onchange="newMin" min="minMag" max="10" step="0.1" required>
+            <select id="timeframe" name="timeframe">
+                <option value="none">--------</option>
+                <option value="0">Hour</option>
+                <option value="1">Day</option>
+                <option value="2">Week</option>
+                <option value="3">Month</option>
+            </select>
+            <select id="country" name="country" required>
+                <option value="0">-----------------</option>
+                <option value="Alaska">Alaska</option>
+                <option value="Illinois">Illinois</option>
+                <option value="Utah">Utah</option>
+                <option value="Texas">Texas</option>
+                <option value="Chile">Chile</option>
+                <option value="France">France</option>
+                <option value="Britain">Britain</option>
+                <option value="China">China</option>
+                <option value="India">India</option>
+                <option value="Japan">Japan</option>
+                <option value="Canada">Canada</option>
+                <option value="Germany">Germany</option>
+                <option value="Spain">Spain</option>
+                <option value="Russia">Russia</option>
+                <option value="Australia">Australia</option>
+            </select>
+        </div>
+        <button type="submit">SUBMIT</button>
+    </form>
+    <div class="error-message"></div>
+    <div class="employee-info">
+        <pre>
+		<h1 class="outputheading"></h1>
+		<h4 class="firstname"></h4>		
+		<p class="employeedata"></p>
+		<p class="age"></p>
+		</pre>
+    </div>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="client_code.js"></script>
+    <script type="text/javascript">
+        // blocks input to each of the appropriate items depending on the selection
+		document.getElementById("what").onchange=function(){
+            if(this.options[this.selectedIndex].value==0)
+            {
+                document.getElementById("timeframe").disabled=true;
+                document.getElementById("minMag").disabled=false;
+                document.getElementById("maxMag").disabled=false;
+            }
+            else if (this.options[this.selectedIndex].value==1)
+            {
+                document.getElementById("timeframe").disabled=false;
+                document.getElementById("minMag").disabled=true;
+                document.getElementById("maxMag").disabled=true;
+            }else {
+                document.getElementById("timeframe").disabled=false;
+                document.getElementById("minMag").disabled=false;
+                document.getElementById("maxMag").disabled=false;
+            }
+        }
+        // makes it so that maxMag cannot be less than minMag
+        document.getElementById("minMag").onchange=function(){
+            document.getElementById("maxMag").min = parseFloat(document.getElementById("minMag").value);
+        }
+
+	</script>
+
+</body>
+
+</html>
